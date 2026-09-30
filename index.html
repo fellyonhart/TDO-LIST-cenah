@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f6f2" />
+    <title>Daftar Tugas | Ruang Kerja</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="page-header">
+        <div class="brand-mark" aria-hidden="true">R</div>
+        <div class="heading-copy">
+          <p class="eyebrow">RUANG KERJA PRIBADI</p>
+          <h1>Daftar tugas</h1>
+          <p class="subtitle">Susun prioritas, lalu lanjutkan satu per satu.</p>
+        </div>
+        <button
+          class="theme-toggle"
+          id="themeToggle"
+          type="button"
+          aria-label="Aktifkan mode gelap"
+          aria-pressed="false"
+        >
+          <span class="theme-icon" aria-hidden="true">◐</span>
+          <span class="theme-label">Mode gelap</span>
+        </button>
+      </header>
+
+      <section class="task-entry" aria-labelledby="entry-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">TANGKAP IDE</p>
+            <h2 id="entry-title">Apa yang perlu dilakukan?</h2>
+          </div>
+        </div>
+        <form class="form" id="form">
+          <label class="title-field" for="title">
+            <span>Nama tugas</span>
+            <input
+              type="text"
+              id="title"
+              placeholder="Contoh: Siapkan materi rapat"
+              required
+              maxlength="120"
+              autocomplete="off"
+            />
+          </label>
+          <label class="select-field" for="priority">
+            <span>Prioritas</span>
+            <select id="priority">
+              <option value="high">Tinggi</option>
+              <option value="medium" selected>Sedang</option>
+              <option value="low">Rendah</option>
+            </select>
+          </label>
+          <label class="select-field" for="category">
+            <span>Kategori</span>
+            <select id="category">
+              <option value="Umum">Umum</option>
+              <option value="Pekerjaan">Pekerjaan</option>
+              <option value="Pribadi">Pribadi</option>
+              <option value="Belajar">Belajar</option>
+              <option value="Kesehatan">Kesehatan</option>
+              <option value="Belanja">Belanja</option>
+            </select>
+          </label>
+          <label class="select-field due-field" for="dueAt">
+            <span>Tenggat</span>
+            <input type="datetime-local" id="dueAt" />
+          </label>
+          <div class="form-actions">
+            <button class="add-button" id="submitTaskBtn" type="submit">
+              <span aria-hidden="true">+</span> Tambah tugas
+            </button>
+            <button class="cancel-edit" id="cancelEditBtn" type="button" hidden>
+              Batalkan
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="task-section" aria-labelledby="tasks-title">
+        <div class="section-heading list-heading">
+          <div>
+            <p class="eyebrow">IKHTISAR</p>
+            <h2 id="tasks-title">Tugas kamu</h2>
+          </div>
+          <div class="io" aria-label="Pengelolaan data">
+            <button id="exportBtn" title="Ekspor cadangan JSON">
+              <span aria-hidden="true">↓</span> Ekspor
+            </button>
+            <button id="importBtn" title="Impor cadangan JSON">
+              <span aria-hidden="true">↑</span> Impor
+            </button>
+            <button
+              id="clearBtn"
+              class="reset-button"
+              title="Hapus semua tugas"
+            >
+              Reset
+            </button>
+            <input type="file" id="fileInput" accept=".json" hidden />
+          </div>
+        </div>
+
+        <div class="stats" id="stats" aria-live="polite"></div>
+        <div class="progress-summary">
+          <div class="progress-labels">
+            <span>Progres penyelesaian</span>
+            <strong id="progressLabel">0%</strong>
+          </div>
+          <div
+            class="progress-track"
+            id="progressTrack"
+            role="progressbar"
+            aria-label="Progres penyelesaian tugas"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          >
+            <span class="progress-fill" id="progressFill"></span>
+          </div>
+        </div>
+        <div class="list-toolbar">
+          <div class="filters" id="filters" aria-label="Filter tugas">
+            <button data-filter="all" class="active">Semua</button>
+            <button data-filter="active">Aktif</button>
+            <button data-filter="done">Selesai</button>
+            <button data-filter="high">Prioritas tinggi</button>
+          </div>
+          <label class="search-field" for="searchInput">
+            <span class="sr-only">Cari tugas</span>
+            <span aria-hidden="true">⌕</span>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Cari tugas atau kategori"
+              autocomplete="off"
+            />
+          </label>
+        </div>
+        <ul id="list" aria-live="polite"></ul>
+      </section>
+      <footer class="page-footer">
+        Daftar tugas pribadi <span>·</span> Data tetap di browser ini
+      </footer>
+    </main>
+
+    <div
+      class="toast-container"
+      id="toastContainer"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
+    <dialog
+      class="app-dialog"
+      id="appDialog"
+      aria-labelledby="dialogTitle"
+      aria-describedby="dialogMessage"
+    >
+      <div class="dialog-content">
+        <p class="eyebrow" id="dialogEyebrow">KONFIRMASI</p>
+        <h2 id="dialogTitle"></h2>
+        <p class="dialog-message" id="dialogMessage"></p>
+        <div class="dialog-actions" id="dialogActions"></div>
+      </div>
+    </dialog>
+
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

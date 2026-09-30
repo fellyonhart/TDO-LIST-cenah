@@ -1,0 +1,12 @@
+{
+  "name": "ruang-kerja-todo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Aplikasi daftar tugas lokal berbasis browser",
+  "scripts": {
+    "check": "node --check js/storage.js && node --check js/app.js && node --check js/main.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
